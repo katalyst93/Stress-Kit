@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Acacia 23';
+    src: url('Acacia23.woff2') format('woff2'),
+        url('Acacia23.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
