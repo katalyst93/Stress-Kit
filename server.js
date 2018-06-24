@@ -3,8 +3,13 @@ const path = require('path');
 const app = express();
 
 const { Wit, log } = require('node-wit');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+
 const client = new Wit({
-  accessToken: 'VIIIUTFNYMSZ2QYELE5SCARBK6ZGT7FP',
+  accessToken: process.env.WIT_KEY,
   logger: new log.Logger(log.DEBUG) // optional
 });
 
@@ -95,7 +100,10 @@ app.get('/', function (req, res) {
   res.send('Hello world.');
 })
 
-var server = app.listen(8081, function () {
+const isDeveloping = process.env.NODE_ENV !== 'production';
+const port = isDeveloping ? 8081 : process.env.PORT;
+
+var server = app.listen(port, function () {
   var host = server.address().address
   var port = server.address().port
 
