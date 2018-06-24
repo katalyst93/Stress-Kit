@@ -142,6 +142,7 @@ const addTooltip = (hoverElement, faultyThinking) => {
 		html: hoverTemplate,
 		theme: 'light',
 		arrow: true, 
+		placement: 'bottom',
 		size: 'large'
 	});
 
