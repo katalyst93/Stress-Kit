@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import tippy from 'tippy.js';
+import tippy from 'tippy.js/dist/tippy.all';
 import 'tippy.js/dist/themes/light.css';
 
 let currentSentences = [];
@@ -71,24 +71,16 @@ const addTooltip = (hoverElement, faultyThinking) => {
 }
 
 const fetchFaultyThinking = (sentence) => {
-	// let url = "https://1ac38aa1.ngrok.io/check-phrase?"
+	let url = "https://1ac38aa1.ngrok.io/check-phrase?"
 
-	// url += convertObjToParams({
-	// 	phrase: sentence
-	// });
-
-	// return fetch(url, { mode: 'cors' })
-	// 	.then((response) => {
-	// 		return response.json()
-	// 	});
-
-	return new Promise(function(resolve, reject) {
-		resolve([{
-			'name': 'Generalization',
-			'description': 'Generalization is not a good thing because of xyz and lyq and this is what it is',
-			'image': './images/labeling.png'
-		}]);
+	url += convertObjToParams({
+		phrase: sentence
 	});
+
+	return fetch(url, { mode: 'cors' })
+		.then((response) => {
+			return response.json()
+		});
 }
 
 const convertObjToParams = (obj) => {
