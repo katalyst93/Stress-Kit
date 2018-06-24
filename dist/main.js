@@ -95,13 +95,12 @@ const compareArrays = (arr1, arr2) => {
 
 document.addEventListener('keyup', function (e) {
 	const text = document.getElementById('content-input').textContent;
-	const newText = text.split('.').map((sentence) => { return { sentence } });
-	const hey = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#content-input').filter(":visible").text();
-	const previousSentences = newText.slice(0, -1);
-	if (newText.length > 1 && !compareArrays(currentSentences, previousSentences)) {
-		currentSentences = previousSentences;
+	const newText = text.match( /[^\.!\?]+[\.!\?]+/g ).map((sentence) => { return { sentence } });
+	const lastMessage = text.split( /[\.!\?]+/g ).splice(-1)[0];
+	if (newText.length > 0 && !compareArrays(currentSentences, newText)) {
+		currentSentences = newText;
 		const promises = [];
-		newText.slice(0, -1).forEach((sentence) => {
+		newText.forEach((sentence) => {
 			promises.push(fetchFaultyThinking(sentence.sentence));
 		});
 		Promise.all(promises).then(function (results) {
@@ -111,16 +110,16 @@ document.addEventListener('keyup', function (e) {
 				if (results[i].length > 0) {
 					const hoverElement = document.createElement('u');
 					hoverElement.className = 'curly-underline';
-					hoverElement.textContent = `${newText[i].sentence}.`;
+					hoverElement.textContent = `${newText[i].sentence}`;
 					addTooltip(hoverElement, results[i][0]);
 
 					finalDataElem.appendChild(hoverElement);
 				} else {
-					const textNode = document.createTextNode(`${newText[i].sentence}.`);
+					const textNode = document.createTextNode(`${newText[i].sentence}`);
 					finalDataElem.appendChild(textNode);
 				}
 			}
-			const textNode = document.createTextNode(`${newText[newText.length - 1].sentence} `);
+			const textNode = document.createTextNode(`${lastMessage} `);
 			finalDataElem.appendChild(textNode);
 			document.getElementById('content-input').innerHTML = '';
 			document.getElementById('content-input').appendChild(finalDataElem);
