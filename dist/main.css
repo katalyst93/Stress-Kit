@@ -3,9 +3,12 @@
     margin: 0px;
     box-sizing: border-box;
 }
+body {
+    padding: 5px;
+}
 #hero-section {
     position: relative;
-    height: 85vh;
+    height: 100vh;
     background-size: cover;
     background-image: linear-gradient(
         to right bottom,
@@ -15,16 +18,102 @@
     url(./images/bars.jpg);
     background-position: right;
 }
-h1 {
-    font-family: 'Acacia 23';
-    font-weight: 1400;
-}    
+
 #logo-holder {
-    padding: 10px;
+    position: absolute;
+    padding: 25px;
 }
 #logo {
     height: 100px;
 }
+#heading-box {
+    text-align: center;
+    padding: 50px;
+    line-height: 0.7;
+
+}
+
+.heading { 
+    margin-top: 150px;
+}
+
+.heading-top {
+    display: block;
+    font-family: 'Acacia 23';
+    font-size: 70px;
+    font-weight: 1400;
+    letter-spacing: 17px;
+    color: #171717;
+}
+.heading-bottom {
+    display: block;
+    font-family: sans-serif;
+    font-size: 30px;
+    font-weight: 1000;
+    letter-spacing: 5px;
+    color: #171717;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+/* Fixed sidenav, full height */
+#sidebar {
+    height: 70%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 170px;
+    left: 5px;
+    background-color: none;
+    /*opacity: 0.3;*/
+    overflow-x: hidden;
+    
+  }
+  
+  /* Style the sidenav links and the dropdown button */
+  #sidebar a, .dd-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* On mouse-over */
+  #sidenav a:hover, .dd-btn:hover {
+    color: orange;
+  }
+  
+  /* Main content */
+  .main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    
+  }
+  
+  /* Add an active class to the active dropdown button */
+  .active {
+    background-color: blue;
+    color: green;
+  }
+  
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dd-wrapper {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+  }
+  
+  /* Optional: Style the caret down icon */
+  .down-icon {
+    float: right;
+    padding-right: 8px;
+  }
 
 #content-input {
     background: white;
@@ -34,8 +123,11 @@ h1 {
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word; 
     padding: 20px;
+    padding-bottom: 100px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+    text-align: left; 
+    background: rgba(255, 255, 255, 0.7);
 }
 
 #heading {
