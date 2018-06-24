@@ -32,6 +32,11 @@ body {
     line-height: 0.7;
 
 }
+
+.heading { 
+    margin-top: 150px;
+}
+
 .heading-top {
     display: block;
     font-family: 'Acacia 23';
@@ -48,6 +53,7 @@ body {
     letter-spacing: 5px;
     color: #171717;
     text-transform: uppercase;
+    margin-bottom: 30px;
 }
 /* Fixed sidenav, full height */
 #sidebar {
@@ -109,6 +115,41 @@ body {
     padding-right: 8px;
   }
 
+#content-input {
+    background: white;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word; 
+    padding: 20px;
+    padding-bottom: 100px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-align: left; 
+    background: rgba(255, 255, 255, 0.7);
+}
 
+#heading {
+    border-bottom: 1px solid #efefef;
+    background: #fafafa;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
 
+#heading button {
+    border: none;
+    background: transparent;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+}
 
+#content-input p {
+    margin: 0;
+}
+
+u {
+    background: url(images/underline.gif) bottom repeat-x;
+    text-decoration: none!important;
+}

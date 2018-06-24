@@ -1,0 +1,35 @@
+{
+  "name": "Stress-Kit",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katalyst93/Stress-Kit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katalyst93/Stress-Kit/issues"
+  },
+  "homepage": "https://github.com/katalyst93/Stress-Kit#readme",
+  "devDependencies": {
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^3.11.0",
+    "webpack-sources": "1.0.1"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.11",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
+    "node-wit": "^5.0.0",
+    "tippy.js": "^2.5.3"
+  }
+}
