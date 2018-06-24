@@ -1,138 +1,123 @@
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
-import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
-import ModelRange from '@ckeditor/ckeditor5-engine/src/model/range';
-
 import $ from 'jquery';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/themes/light.css';
 
+let currentSentences = [];
 
-function getText( element ) {
-	return Array.from( element.getChildren() ).reduce( ( a, b ) => a + b.data, '' );
+const compareArrays = (arr1, arr2) => {
+	if (arr1.length !== arr2.length) {
+		return false;
+	}
+	for (let i = 0; i < arr1.length; i++) {
+		if (arr1.sentence !== arr2.sentence) {
+			return false;
+		}
+	}
+	return true;
 }
 
-
-ClassicEditor
-	.create( document.querySelector( '#snippet-custom-build' ), {
-		plugins: [
-			Essentials,
-			Paragraph,
-			Bold,
-			Italic,
-			Underline,
-			Strikethrough
-		],
-		toolbar: {
-			items: [ 'bold', 'italic', 'strikethrough', 'undo', 'redo' ],
-			viewportTopOffset: 60
-		}
-	} )
-	.then( editor => {
-		window.editor = editor;
-		editor.model.document.on( 'change', ( evt, batch ) => {
-			if ( batch.type == 'transparent' ) {
-				return;
-			}
-
-			const selection = editor.model.document.selection;
-
-			// Do nothing if selection is not collapsed.
-			if ( !selection.isCollapsed ) {
-				return;
-			}
-
-			const changes = Array.from( editor.model.document.differ.getChanges() );
-			const entry = changes[ 0 ];
-
-			// Typing is represented by only a single change.
-			if ( changes.length != 1 || entry.type !== 'insert' || entry.name != '$text' || entry.length != 1 ) {
-				return;
-			}
-
-			const block = selection.focus.parent;
-			const text = getText( block ).slice( 0, selection.focus.offset );
-			const newText = text.split('.').map((sentence) => { return { sentence } });
-			// Promise.all
-			const promises = [];
-			if (newText.length > 1) {
-				newText.slice(0, -1).forEach((sentence) => {
-					promises.push(fetchFaultyThinking(sentence.sentence));
-				});
-				Promise.all(promises).then(function(results) {
-					// Both promises resolved
-					let finalText = "<p>";
-					for (let i = 0; i < results.length; i++) {
-						if (results[i].length > 0) {
-							finalText += `<u class="curly-underline">${newText[i].sentence}.</u>`;
-						} else {
-							finalText += `${newText[i].sentence}.`;
-						}
-					}
-					finalText += `${newText[newText.length - 1].sentence}</p>`;
-					editor.model.enqueueChange( writer => {
-						editor.setData(finalText);
-					});
-				})
-			}
-			
-			// const testOutput = testCallback( text );
-			// const rangesToFormat = testOutputToRanges( block, testOutput.format );
-			// const rangesToRemove = testOutputToRanges( block, testOutput.remove );
-
-			// if ( !( rangesToFormat.length && rangesToRemove.length ) ) {
-			// 	return;
-			// }
-
-			// // Use enqueueChange to create new batch to separate typing batch from the auto-format changes.
-			// editor.model.enqueueChange( writer => {
-			// 	const validRanges = editor.model.schema.getValidRanges( rangesToFormat, attributeKey );
-
-			// 	// Apply format.
-			// 	formatCallback( writer, validRanges );
-
-			// 	// Remove delimiters - use reversed order to not mix the offsets while removing.
-			// 	for ( const range of rangesToRemove.reverse() ) {
-			// 		writer.remove( range );
-			// 	}
-			// } );
-		} );
-		// editor.model.document.on( 'change', () => {
-
-			
-		// 	if ( editor.model.document.differ.getChanges().length > 0 ) {
-		
-				
-		// 	}
-		// } );
-	} )
-	.catch( err => {
-		console.error( err );
-	} );
-
-
-	const fetchFaultyThinking = (sentence) => {
-		let url = "https://1ac38aa1.ngrok.io/check-phrase?"
-	
-		url += convertObjToParams({
-			phrase: sentence
+document.addEventListener('keyup', function (e) {
+	const text = document.getElementById('content-input').textContent;
+	const newText = text.split('.').map((sentence) => { return { sentence } });
+	const hey = $('#content-input').filter(":visible").text();
+	const previousSentences = newText.slice(0, -1);
+	if (newText.length > 1 && !compareArrays(currentSentences, previousSentences)) {
+		currentSentences = previousSentences;
+		const promises = [];
+		newText.slice(0, -1).forEach((sentence) => {
+			promises.push(fetchFaultyThinking(sentence.sentence));
 		});
+		Promise.all(promises).then(function (results) {
+			// Both promises resolved
+			const finalDataElem = document.createElement('p');
+			for (let i = 0; i < results.length; i++) {
+				if (results[i].length > 0) {
+					const hoverElement = document.createElement('u');
+					hoverElement.className = 'curly-underline';
+					hoverElement.textContent = `${newText[i].sentence}.`;
+					addTooltip(hoverElement, results[i][0]);
 
-		return fetch(url, {mode: 'cors'})
-		.then((response) => {
-			return response.json()
-		});
+					finalDataElem.appendChild(hoverElement);
+				} else {
+					const textNode = document.createTextNode(`${newText[i].sentence}.`);
+					finalDataElem.appendChild(textNode);
+				}
+			}
+			const textNode = document.createTextNode(`${newText[newText.length - 1].sentence} `);
+			finalDataElem.appendChild(textNode);
+			document.getElementById('content-input').innerHTML = '';
+			document.getElementById('content-input').appendChild(finalDataElem);
+			setEndOfContenteditable(document.getElementById('content-input'));
+		})
 	}
+});
+
+const addTooltip = (hoverElement, faultyThinking) => {
+	const hoverTemplate = document.createElement('div');
+
+	hoverTemplate.innerHTML = `
+			<img style="padding: 10px; height: 100px; width: 100px;" src="${faultyThinking.image}" />
+			<h3>${faultyThinking.name}</h3>
+			<p style="width: 400px">${faultyThinking.description}</p>`;
+
+	
+	tippy(hoverElement, {
+		html: hoverTemplate,
+		theme: 'light',
+		arrow: true, 
+		size: 'large'
+	});
+
+}
+
+const fetchFaultyThinking = (sentence) => {
+	// let url = "https://1ac38aa1.ngrok.io/check-phrase?"
+
+	// url += convertObjToParams({
+	// 	phrase: sentence
+	// });
+
+	// return fetch(url, { mode: 'cors' })
+	// 	.then((response) => {
+	// 		return response.json()
+	// 	});
+
+	return new Promise(function(resolve, reject) {
+		resolve([{
+			'name': 'Generalization',
+			'description': 'Generalization is not a good thing because of xyz and lyq and this is what it is',
+			'image': './images/labeling.png'
+		}]);
+	});
+}
 
 const convertObjToParams = (obj) => {
-    let str = "";
-    for (let key in obj) {
-        if (str != "") {
-            str += "&";
-        }
-        str += key + "=" + encodeURIComponent(obj[key]);
-    }
-    return str;
+	let str = "";
+	for (let key in obj) {
+		if (str != "") {
+			str += "&";
+		}
+		str += key + "=" + encodeURIComponent(obj[key]);
+	}
+	return str;
+}
+
+function setEndOfContenteditable(contentEditableElement) {
+	var range, selection;
+	if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+	{
+		range = document.createRange();//Create a range (a range is a like the selection but invisible)
+		range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+		range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+		selection = window.getSelection();//get the selection object (allows you to change selection)
+		selection.removeAllRanges();//remove any selections already made
+		selection.addRange(range);//make the range you have just created the visible selection
+	}
+	else if (document.selection)//IE 8 and lower
+	{
+		range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+		range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
+		range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+		range.select();//Select the range (make it the visible selection
+	}
 }

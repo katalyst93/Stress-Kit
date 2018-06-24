@@ -33,24 +33,28 @@ h1 {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word; 
+    padding: 20px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
-u .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
+#heading {
+    border-bottom: 1px solid #efefef;
+    background: #fafafa;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
-u:hover .tooltiptext {
-    visibility: visible;
+#heading button {
+    border: none;
+    background: transparent;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+#content-input p {
+    margin: 0;
 }
 
 u {
