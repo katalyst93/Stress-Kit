@@ -71,7 +71,7 @@ const addTooltip = (hoverElement, faultyThinking) => {
 }
 
 const fetchFaultyThinking = (sentence) => {
-	let url = "https://1ac38aa1.ngrok.io/check-phrase?"
+	let url = "./check-phrase?"
 
 	url += convertObjToParams({
 		phrase: sentence

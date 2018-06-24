@@ -71,8 +71,8 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tippy_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tippy_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_tippy_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tippy_js_dist_tippy_all__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tippy_js_dist_tippy_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_tippy_js_dist_tippy_all__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tippy_js_dist_themes_light_css__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tippy_js_dist_themes_light_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_tippy_js_dist_themes_light_css__);
 
@@ -138,7 +138,7 @@ const addTooltip = (hoverElement, faultyThinking) => {
 			<p style="width: 400px">${faultyThinking.description}</p>`;
 
 	
-	__WEBPACK_IMPORTED_MODULE_1_tippy_js___default()(hoverElement, {
+	__WEBPACK_IMPORTED_MODULE_1_tippy_js_dist_tippy_all___default()(hoverElement, {
 		html: hoverTemplate,
 		theme: 'light',
 		arrow: true, 
@@ -148,24 +148,16 @@ const addTooltip = (hoverElement, faultyThinking) => {
 }
 
 const fetchFaultyThinking = (sentence) => {
-	// let url = "https://1ac38aa1.ngrok.io/check-phrase?"
+	let url = "./check-phrase?"
 
-	// url += convertObjToParams({
-	// 	phrase: sentence
-	// });
-
-	// return fetch(url, { mode: 'cors' })
-	// 	.then((response) => {
-	// 		return response.json()
-	// 	});
-
-	return new Promise(function(resolve, reject) {
-		resolve([{
-			'name': 'Generalization',
-			'description': 'Generalization is not a good thing because of xyz and lyq and this is what it is',
-			'image': './images/labeling.png'
-		}]);
+	url += convertObjToParams({
+		phrase: sentence
 	});
+
+	return fetch(url, { mode: 'cors' })
+		.then((response) => {
+			return response.json()
+		});
 }
 
 const convertObjToParams = (obj) => {
