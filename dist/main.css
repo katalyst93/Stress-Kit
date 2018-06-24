@@ -1,0 +1,59 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+#hero-section {
+    position: relative;
+    height: 85vh;
+    background-size: cover;
+    background-image: linear-gradient(
+        to right bottom,
+        rgba(43, 134, 232, 0.80),
+        rgba(142, 139, 144, 0.80),
+        rgba(36, 202, 133, 0.80)),
+    url(./images/bars.jpg);
+    background-position: right;
+}
+h1 {
+    font-family: 'Acacia 23';
+    font-weight: 1400;
+}    
+#logo-holder {
+    padding: 10px;
+}
+#logo {
+    height: 100px;
+}
+
+#content-input {
+    background: white;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word; 
+}
+
+u .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+u:hover .tooltiptext {
+    visibility: visible;
+}
+
+u {
+    background: url(images/underline.gif) bottom repeat-x;
+    text-decoration: none!important;
+}
